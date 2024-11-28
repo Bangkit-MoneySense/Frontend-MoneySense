@@ -10,26 +10,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="350dp"
-            android:layout_height="670dp"
-            android:background="@android:color/transparent"
-            android:scaleType="center"
-            android:src="@drawable/mic_on_active"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/FAB_mic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/fab_microphone"
+            app:backgroundTint="@color/white"
+            app:tint="@color/grey"
+            app:fabCustomSize="300dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="100dp"
+            app:srcCompat="@drawable/mic_on_inactive"
+            app:useCompatPadding="false" />
 
         <TextView
+            android:id="@+id/tvListening"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="100dp"
+            android:alpha="1"
             android:gravity="center"
             android:text="@string/listening"
-            android:alpha="1"
-            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
