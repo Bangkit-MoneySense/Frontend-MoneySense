@@ -1,5 +1,8 @@
 [versions]
 agp = "8.7.2"
+
+cameraCamera2 = "1.4.0"
+cameraView = "1.4.0"
 converterGson = "latest.version"
 converterGsonVersion = "2.11.0"
 gson = "2.11.0"
@@ -22,6 +25,9 @@ retrofit = "2.11.0"
 viewpager2 = "1.0.0"
 
 [libraries]
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraView" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraCamera2" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "converterGsonVersion" }
