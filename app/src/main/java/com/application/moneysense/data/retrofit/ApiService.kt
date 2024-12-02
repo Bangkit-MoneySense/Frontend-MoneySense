@@ -1,33 +1,22 @@
 package com.application.moneysense.data.retrofit
 
+import com.application.moneysense.data.model.HistoryResponse
+import com.application.moneysense.data.model.PredictResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ApiService {
+    @Multipart
+    @POST("predict")
+    fun getPrediction(
+        @Part input: MultipartBody.Part,
+        @Part("userId") userId: RequestBody
+    ): Call<PredictResponse>
 
-    // call the predict
-    @Headers("Content-Type: application/json", "apikey: 12345")
-    @POST ("predict")
-    fun getPrediction (@Body requestBody: PredictRequest): Call<PredictResponse>
-
-    // for calling the history saved in API
-    @GET ("history/{userId}")
-    fun getUserHistory (@Path("userID") userId : Int)
-
-    // Data classes for the request
-    data class PredictRequest(
-        // input image url
-        val input: String,
-        val userId: Int
-    )
-
-    // response of predict result
-    data class PredictResponse(
-        val authenticity: String,
-        val currency: String
-    )
+    @GET("history")
+    fun getUserHistory(
+        @Query("userId") userId: Int
+    ): Call<HistoryResponse>
 }
