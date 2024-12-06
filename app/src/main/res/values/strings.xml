@@ -10,4 +10,10 @@
     <string name="listening">Listening. . .</string>
     <string name="fab_microphone">FAB_Microphone</string>
     <string name="camera_btn">camera_btn</string>
+
+    <string name="tab_microphone">Microphone</string>
+    <string name="tab_camera">Camera</string>
+    <string name="tab_realtime">Realtime Cam</string>
+
+
 </resources>
