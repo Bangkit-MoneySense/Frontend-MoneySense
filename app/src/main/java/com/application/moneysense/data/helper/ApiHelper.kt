@@ -1,7 +1,8 @@
-package com.application.moneysense.data.retrofit
+package com.application.moneysense.data.helper
 
 import com.application.moneysense.data.model.HistoryResponse
 import com.application.moneysense.data.model.PredictResponse
+import com.application.moneysense.data.retrofit.ApiConfig
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -14,7 +15,7 @@ fun requestPrediction(
     onSuccess: (PredictResponse) -> Unit,
     onError: (String) -> Unit
 ) {
-    ApiConfig.getApiService().getPrediction(input, userId).enqueue(object : Callback<PredictResponse> {
+    ApiConfig.Companion.getApiService().getPrediction(input, userId).enqueue(object : Callback<PredictResponse> {
         override fun onResponse(call: Call<PredictResponse>, response: Response<PredictResponse>) {
             if (response.isSuccessful) {
                 response.body()?.let(onSuccess)
@@ -34,7 +35,7 @@ fun requestHistory(
     onSuccess: (HistoryResponse) -> Unit,
     onError: (String) -> Unit
 ) {
-    ApiConfig.getApiService().getUserHistory(userId).enqueue(object : Callback<HistoryResponse> {
+    ApiConfig.Companion.getApiService().getUserHistory(userId).enqueue(object : Callback<HistoryResponse> {
         override fun onResponse(call: Call<HistoryResponse>, response: Response<HistoryResponse>) {
             if (response.isSuccessful) {
                 response.body()?.let(onSuccess)
