@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -17,10 +18,10 @@
         android:theme="@style/Theme.MoneySense"
         tools:targetApi="31">
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.moneyscan.MoneyScan"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.splashapp.Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
