@@ -1,6 +1,7 @@
 package com.application.moneysense.ui.moneyscan
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.net.Uri
@@ -16,7 +17,6 @@ import androidx.camera.core.Preview
 import androidx.camera.core.resolutionselector.AspectRatioStrategy
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.application.moneysense.R
@@ -27,15 +27,18 @@ import com.application.moneysense.data.model.PredictResponse
 import com.application.moneysense.data.pref.UserPreferences
 import com.application.moneysense.data.pref.dataStore
 import com.application.moneysense.databinding.ActivityMoneyScanBinding
+import com.application.moneysense.ui.imageresult.ImageResult
+import com.application.moneysense.ui.imageresult.ImageResult.Companion.EXTRA_IMAGE_URI
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class MoneyScan : AppCompatActivity() {
+
     companion object {
         private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
-        private const val CAMERA_PERMISSION_CODE = 101
     }
+
 
     private var currentImageUri: Uri? = null
     private lateinit var binding: ActivityMoneyScanBinding
@@ -71,12 +74,12 @@ class MoneyScan : AppCompatActivity() {
 
         // change view to camera in mobile
         cameraMode.setOnClickListener() {
-            TODO("CREATE INTENT TO MOBILE CAMERA APP")
+            startCameraCapture()
         }
 
-        //  open history activity
+        // open history activity
         historyFab.setOnClickListener() {
-            TODO("CREATE INTENT TO HISTORY ACTIVITY")
+        //  Todo("CREATE INTENT TO HISTORY ACTIVITY")
         }
 
         // logic to switch between dark and light mode
@@ -97,20 +100,7 @@ class MoneyScan : AppCompatActivity() {
             }
         }
 
-
         cameraExecutor = Executors.newSingleThreadExecutor()
-
-        // checking the permission to use camera
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            == PackageManager.PERMISSION_GRANTED) {
-            startCamera()
-        } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_CODE
-            )
-        }
 
         switchTheme.setOnClickListener() {
             val isDarkModeActive = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO
@@ -211,26 +201,34 @@ class MoneyScan : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
-    // ===================================================================
-    // ================ control open camera app mobile ===================
-    // ===================================================================
+    // ==============================================================
+    // ============= control open camera app mobile =================
+    // ==============================================================
 
     private fun startCameraCapture() {
-        currentImageUri = getImageUri(this)
-        launcherIntentCamera.launch(currentImageUri)
+        val imageUri = getImageUri(this)
+        if (imageUri != null) {
+            currentImageUri = imageUri
+            launcherIntentCamera.launch(imageUri)
+        } else {
+            showToast("Failed to generate image URI")
+        }
     }
 
     private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { isSuccess ->
         if (isSuccess) {
-            showImage()
+            currentImageUri?.let {
+                navigateToImageResult(it)
+            }
         }
     }
 
-    private fun showImage() {
-        currentImageUri?.let {
-            Log.d("Image URI", "showImage: $it")
-        }
+    private fun navigateToImageResult(uri: Uri) {
+        val intent = Intent(this, ImageResult::class.java)
+        intent.putExtra(EXTRA_IMAGE_URI, currentImageUri.toString())
+        startActivity(intent)
+        finish()
     }
 }

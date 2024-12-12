@@ -40,11 +40,10 @@ class ImageAnalyzer(private val onResult: (PredictResponse) -> Unit) : ImageAnal
         } catch (e: Exception) {
             Log.e("ImageAnalyzer", "Unexpected error in analyze: ${e.message}", e)
         }
-    }
 //        val byteArray = image.toByteArray()
 //        image.close()
 //
-//        val requestFile = byteArray.toRequestBody("image/jpeg".toMediaTypeOrNull())
+//        val requestFile = byteArray!!.toRequestBody("image/jpeg".toMediaTypeOrNull())
 //        val imagePart = MultipartBody.Part.createFormData("input", "image.jpg", requestFile)
 //        val userId = "1".toRequestBody("text/plain".toMediaTypeOrNull())
 //
@@ -57,6 +56,7 @@ class ImageAnalyzer(private val onResult: (PredictResponse) -> Unit) : ImageAnal
 //                onResult(PredictResponse(data = null))
 //            }
 //        )
+    }
 }
 
 private fun ImageProxy.toByteArray(): ByteArray? {
@@ -80,26 +80,27 @@ private fun ImageProxy.toByteArray(): ByteArray? {
 
         val yuvImage = YuvImage(nv21, ImageFormat.NV21, width, height, null)
         val outStream = ByteArrayOutputStream()
-        yuvImage.compressToJpeg(android.graphics.Rect(0, 0, width, height), 100, outStream)
+        yuvImage.compressToJpeg(Rect(0, 0, width, height), 100, outStream)
         outStream.toByteArray()
     } catch (e: Exception) {
         Log.e("ImageAnalyzer", "Error in toByteArray: ${e.message}", e)
         null
     }
-//        val yBuffer = planes[0].buffer
-//        val vuBuffer = planes[2].buffer
+//    val yBuffer = planes[0].buffer
+//    val vuBuffer = planes[2].buffer
 //
-//        val ySize = yBuffer.remaining()
-//        val vuSize = vuBuffer.remaining()
+//    val ySize = yBuffer.remaining()
+//    val vuSize = vuBuffer.remaining()
 //
-//        val nv21 = ByteArray(ySize + vuSize)
+//    val nv21 = ByteArray(ySize + vuSize)
 //
-//        yBuffer.get(nv21, 0, ySize)
-//        vuBuffer.get(nv21, ySize, vuSize)
+//    yBuffer.get(nv21, 0, ySize)
+//    vuBuffer.get(nv21, ySize, vuSize)
 //
-//        val yuvImage = YuvImage(nv21, ImageFormat.NV21, width, height, null)
-//        val out = ByteArrayOutputStream()
-//        yuvImage.compressToJpeg(android.graphics.Rect(0, 0, width, height), 100, out)
+//    val yuvImage = YuvImage(nv21, ImageFormat.NV21, width, height, null)
+//    val out = ByteArrayOutputStream()
+//    yuvImage.compressToJpeg(android.graphics.Rect(0, 0, width, height), 100, out)
 //
-//        return out.toByteArray()
+//    return out.toByteArray()
 }
+
